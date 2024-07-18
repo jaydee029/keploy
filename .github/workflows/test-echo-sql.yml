@@ -3,7 +3,7 @@ on:
   workflow_call:
 
 jobs:
-  test-go-mongo:
+  test-echo-sql:
     strategy:
         matrix:
             Mode: [0,1]
@@ -41,21 +41,21 @@ jobs:
           ref: native-linux
           path: samples-go
 
-      - name: Build the gin-mongo application
+      - name: Build the echo-sql application
         run: |
-          cd samples-go/gin-redis
-          go build -o gin-redis .
+          cd samples-go/echo-sql
+          go build -o echosql .
           
       # add the noisy fields in the config file if any.
       - name: Add noisy fields in the config file
         run: |
           echo "You can add the noisy fields in the config file if any."
           
-      - name: Run testing script for gin-mongo application
+      - name: Run testing script for echo-sql application
         uses: ./.github/actions/tester
         with:
-          working-directory: samples-go/gin-redis
-          command: ./gin-redis
+          working-directory: samples-go/echo-sql
+          command: ./echosql
           delay: 7
           keploy-record-bin: /usr/local/bin/keployR
           keploy-test-bin: /usr/local/bin/keployB

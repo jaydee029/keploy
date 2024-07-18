@@ -29,14 +29,14 @@ jobs:
     needs: build
     uses: ./.github/workflows/test-go-mongo-2.yml    
   
-  test-go-redis:
+  test-echo-sql:
     needs: build
-    uses: ./.github/workflows/test-go-redis.yml
+    uses: ./.github/workflows/test-echo-sql.yml
 
 
 # Wait for all the test workflows before getting the coverage
   get-coverage:
-    needs: [test-go-mongo-1, test-go-mongo-2,test-go-redis ]
+    needs: [test-go-mongo-1, test-go-mongo-2,test-echo-sql ]
     uses: ./.github/workflows/coverage_stage.yml     
 
 #https://github.com/marketplace/actions/delete-artifact
