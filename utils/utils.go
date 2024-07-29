@@ -12,8 +12,10 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"os/exec"
 	"os/user"
 	"path/filepath"
+	"regexp"
 	"runtime/debug"
 	"strconv"
 	"strings"
@@ -268,6 +270,28 @@ func Recover(logger *zap.Logger) {
 
 // GenerateGithubActions generates a GitHub Actions workflow file for Keploy
 func GenerateGithubActions(logger *zap.Logger, appCmd string) {
+	//determining git origin
+	origin, err := exec.Command("git", "remote", "-v").Output()
+
+	if err != nil {
+		logger.Error("Error retrieving git origin", zap.Error(err))
+		return
+	}
+
+	pattern := `https://github.com`
+
+	if_exists, err := regexp.MatchString(pattern, string(origin))
+
+	if err != nil {
+		logger.Error("Error determining git origin pattern", zap.Error(err))
+		return
+	}
+	// if origin not equal to https://github.com
+	if !if_exists {
+		logger.Info("git not pointing towards github.com, github actions workflow not created")
+		return
+	}
+
 	// Determine the path based on the alias "keploy"
 	logger.Debug("Generating GitHub Actions workflow file")
 	// Define the content of the GitHub Actions workflow file
@@ -283,7 +307,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Test-Report
         uses: keploy/testgpt@main
         with:
@@ -291,9 +315,16 @@ jobs:
           keploy-path: ./
           command: ` + appCmd + `
 `
+	pwd, err := exec.Command("pwd").Output()
+	if err != nil {
+		logger.Error("Error retrieving the path for GitHub Actions workflow file", zap.Error(err))
+		return
+	}
 
 	// Define the file path where the GitHub Actions workflow file will be saved
-	filePath := "/githubactions/keploy.yml"
+	//pwd carries an extra eol character (\n) which needs to be removed
+	pwd_string := string(pwd)
+	filePath := pwd_string[:len(pwd_string)-1] + "/.github/workflows/keploy.yml"
 
 	//create the file path
 	if err := os.MkdirAll(filepath.Dir(filePath), 0755); err != nil {
