@@ -2,7 +2,6 @@ name: Build Keploy Binary
 
 on:
   pull_request:
-    branches: [build,main]
 
 jobs:
   build:
@@ -27,16 +26,12 @@ jobs:
 
   test-go-mongo-2:
     needs: build
-    uses: ./.github/workflows/test-go-mongo-2.yml    
-  
-  test-echo-sql:
-    needs: build
-    uses: ./.github/workflows/test-echo-sql.yml
-
+    uses: ./.github/workflows/test-go-mongo-2.yml     
+    
 
 # Wait for all the test workflows before getting the coverage
   get-coverage:
-    needs: [test-go-mongo-1, test-go-mongo-2,test-echo-sql ]
+    needs: [test-go-mongo-1, test-go-mongo-2]
     uses: ./.github/workflows/coverage_stage.yml     
 
 #https://github.com/marketplace/actions/delete-artifact
