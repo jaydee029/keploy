@@ -278,16 +278,16 @@ func GenerateGithubActions(logger *zap.Logger, appCmd string) {
 		return
 	}
 
-	pattern := `https://github.com`
+	pattern := `https://github\.com`
 
-	if_exists, err := regexp.MatchString(pattern, string(origin))
+	ifExists, err := regexp.MatchString(pattern, string(origin))
 
 	if err != nil {
 		logger.Error("Error determining git origin pattern", zap.Error(err))
 		return
 	}
 	// if origin not equal to https://github.com
-	if !if_exists {
+	if !ifExists {
 		logger.Info("git not pointing towards github.com, github actions workflow not created")
 		return
 	}
@@ -323,8 +323,8 @@ jobs:
 
 	// Define the file path where the GitHub Actions workflow file will be saved
 	//pwd carries an extra eol character (\n) which needs to be removed
-	pwd_string := string(pwd)
-	filePath := pwd_string[:len(pwd_string)-1] + "/.github/workflows/keploy.yml"
+	pwdstr := string(pwd)
+	filePath := pwdstr[:len(pwdstr)-1] + "/.github/workflows/keploy.yml"
 
 	//create the file path
 	if err := os.MkdirAll(filepath.Dir(filePath), 0755); err != nil {
