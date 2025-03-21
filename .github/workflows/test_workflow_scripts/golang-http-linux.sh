@@ -5,7 +5,7 @@ echo "iid.sh executed"
 
 # Checkout a different branch
 git fetch origin
-git checkout native-linux
+#git checkout native-linux
 
 # Check if there is a keploy-config file, if there is, delete it.
 if [ -f "./keploy.yml" ]; then
