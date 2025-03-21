@@ -1,6 +1,7 @@
 #!/bin/bash
 
 source ./../../.github/workflows/test_workflow_scripts/test-iid.sh
+echo "iid.sh executed"
 
 # Checkout a different branch
 git fetch origin
@@ -22,6 +23,7 @@ sed -i 's/global: {}/global: {"body": {"updated_at":[]}}/' "$config_file"
 
 # Build go binary
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o http-pokeapi
+echo "go binary built"
 
 send_request() {
     local index=$1  
