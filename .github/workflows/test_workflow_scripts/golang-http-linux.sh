@@ -14,16 +14,16 @@ fi
 
 rm -rf keploy/
 
+# Build go binary
+CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o http-pokeapi
+echo "go binary built"
+
 # Generate the keploy-config file.
 sudo ./../../keployv2 config --generate
 
 # Update the global noise to updated_at.
 config_file="./keploy.yml"
 sed -i 's/global: {}/global: {"body": {"updated_at":[]}}/' "$config_file"
-
-# Build go binary
-CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o http-pokeapi
-echo "go binary built"
 
 send_request() {
     local index=$1  
