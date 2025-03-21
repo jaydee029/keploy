@@ -3,7 +3,7 @@ on:
     pull_request:
         branches: [main]
 jobs:
-  mysql_golang_linux:
+  http_golang_linux:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repository
@@ -19,7 +19,7 @@ jobs:
         repository: keploy/samples-go
         path: samples-go
 
-    - name: Run echo-mysql application
+    - name: Run golang-http application
       run: |
         cd samples-go/http-pokeapi
         source ./../../.github/workflows/test_workflow_scripts/golang-http-linux.sh
