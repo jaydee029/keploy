@@ -38,17 +38,11 @@ send_request() {
     done
     
     echo "App started"
-    response=$(curl -s -X GET http://localhost:8080/api/locations)
+    curl -s -X GET http://localhost:8080/api/locations
 
-    # Extract any location from the reponse
-    location=$(echo "$response" | jq -r ".location[$index]")
+    curl -s -X GET http://localhost:8080/api/locations/mt-coronet-5f
 
-    response=$(curl -s -X GET http://localhost:8080/api/locations/$location)
-
-    # Extract any pokemon from the response
-    pokemon=$(echo "$response" | jq -r ".[$index]")
-
-    curl -s -X GET http://localhost:8080/api/locations/pokemon/$pokemon
+    curl -s -X GET http://localhost:8080/api/locations/pokemon/golbat
 
     # Wait for 10 seconds for Keploy to record the tcs and mocks.
     sleep 10
