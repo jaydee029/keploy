@@ -22,7 +22,7 @@ jobs:
     - name: Run golang-http application
       run: |
         cd samples-go/http-pokeapi
-        chemod +x ./../../.github/workflows/test_workflow_scripts/golang-http-linux.sh
+        chmod +x ./../../.github/workflows/test_workflow_scripts/golang-http-linux.sh
         source ./../../.github/workflows/test_workflow_scripts/golang-http-linux.sh
         # source ./../../.github/workflows/test_workflow_scripts/test-iid.sh
         # echo "iid.sh executed"
