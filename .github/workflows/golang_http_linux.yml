@@ -25,7 +25,7 @@ jobs:
         ls
         cd ../../..
         cd samples-go/http-pokeapi
-        source ./test_workflow_scripts/test-iid.sh
+        source ./../../.github/workflows/test_workflow_scripts/test-iid.sh
         echo "iid.sh executed"
 
         # Checkout a different branch
