@@ -63,11 +63,11 @@ jobs:
             done
             
             echo "App started"
-            curl -X GET http://localhost:8080/api/locations
+            curl -s -X GET http://localhost:8080/api/locations
 
-            curl -X GET http://localhost:8080/api/locations/mt-coronet-5f
+            curl -s -X GET http://localhost:8080/api/locations/mt-coronet-5f
 
-            curl -X GET http://localhost:8080/api/locations/pokemon/golbat
+            curl -s -X GET http://localhost:8080/api/locations/pokemon/golbat
 
             # Wait for 10 seconds for Keploy to record the tcs and mocks.
             sleep 10
